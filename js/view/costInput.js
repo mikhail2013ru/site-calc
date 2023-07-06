@@ -43,6 +43,8 @@ function init(getData) {
 
         updateModel(input, { cost: +cleaveInput.getRawValue(), onUpdate: 'inputCost' })
     })
+
+    return cleaveInput
 }
 
 export default init
