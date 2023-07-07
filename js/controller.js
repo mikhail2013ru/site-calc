@@ -3,12 +3,16 @@ import programs from './view/radioPrograms.js'
 import updateResultsView from './view/updateResultsView.js'
 import costInput from './view/costInput.js'
 import costRange from './view/costRange.js'
+import { updateMinPercents } from './view/utils.js'
+import paymentInput from './view/paymentInput.js'
 
 const getData = Model.getData
 programs(getData)
 
 const cleaveCost = costInput(getData)
 const sliderCost = costRange(getData)
+
+const cleavePayment = paymentInput(getData)
 
 document.addEventListener('updateForm', (e) => {
     Model.setData(e.detail)
@@ -23,6 +27,10 @@ document.addEventListener('updateForm', (e) => {
 })
 
 function updateFormAndSliders(data) {
+    if (data.onUpdate === 'radioProgram') {
+        updateMinPercents(data)
+    }
+
     if (data.onUpdate !== 'inputCost') {
         console.log('Update ic')
         cleaveCost.setRawValue(data.cost)
@@ -31,5 +39,9 @@ function updateFormAndSliders(data) {
     if (data.onUpdate !== 'costSlider') {
         console.log('Update cs')
         sliderCost.noUiSlider.set(data.cost)
+    }
+
+    if (data.onUpdate !== 'inputPayment') {
+        cleavePayment.setRawValue(data.payment)
     }
 }
